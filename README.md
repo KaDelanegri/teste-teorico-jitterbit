@@ -58,9 +58,7 @@ Com o servidor rodando, acesse a documentação interativa para testar as rotas 
 
 Veja o sistema funcionando na prática (Teste manual via Swagger):
 
-![Demonstração do Robô](./assets/demo.gif)
-
----
+![Demonstração](./assets/demo.gif)
 
 ## 🤖 Executando o Teste Automatizado (Robô)
 
