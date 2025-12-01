@@ -78,7 +78,7 @@ node teste-robo.js
 **Saída esperada:**
 Você verá logs coloridos (verdes) confirmando o sucesso de cada etapa da operação.
 
-![Print do Teste Automatizado](./assets/print-teste.png)
+![Print do Teste Automatizado](./assets/print-test.png)
 
 ---
 
