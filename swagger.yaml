@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: API de Pedidos Jitterbit
+  description: API para teste técnico com Autenticação JWT
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
+paths:
+  /login:
+    post:
+      summary: (Passo 1) Gere seu Token aqui
+      tags: [Autenticação]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user: { type: string, example: "admin" }
+      responses:
+        200:
+          description: Sucesso. Copie o token retornado.
+  /order:
+    post:
+      summary: Criar novo pedido
+      tags: [Pedidos]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                numeroPedido: { type: string, example: "v10089015vdb-01" }
+                valorTotal: { type: number, example: 10000 }
+                dataCriacao: { type: string, example: "2023-07-19T12:24:11.529Z" }
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      idItem: { type: string, example: "2434" }
+                      quantidadeItem: { type: number, example: 1 }
+                      valorItem: { type: number, example: 1000 }
+      responses:
+        201:
+          description: Pedido criado e transformado
+  /order/{id}:
+    get:
+      summary: Buscar pedido por ID
+      tags: [Pedidos]
+      parameters:
+        - in: path
+          name: id
+          schema: { type: string }
+          required: true
+      responses:
+        200:
+          description: Dados do pedido
+    delete:
+      summary: Deletar pedido
+      tags: [Pedidos]
+      parameters:
+        - in: path
+          name: id
+          required: true
+      responses:
+        200:
+          description: Pedido deletado
