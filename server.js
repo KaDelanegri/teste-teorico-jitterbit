@@ -11,7 +11,7 @@ app.use(cors());
 
 // --- CONFIGURAÇÕES ---
 const PORT = 3000;
-const SECRET_KEY = "minha_senha_super_secreta_teste"; // Chave para assinar o JWT
+const SECRET_KEY = "minha_senha_teste"; // Chave para assinar o JWT
 
 // Banco de dados em memória
 let ordersParams = []; 
@@ -23,7 +23,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // --- MIDDLEWARE DE SEGURANÇA ---
 // Essa função verifica se a pessoa tem o Token antes de deixar acessar a API
 function verificarToken(req, res, next) {
-    // Para facilitar o teste, vamos deixar a rota de login pública
+    // Rota de login pública
     if (req.path === '/login') return next();
 
     const tokenHeader = req.headers['authorization'];
@@ -32,7 +32,7 @@ function verificarToken(req, res, next) {
         return res.status(403).send({ auth: false, message: 'Nenhum token fornecido.' });
     }
 
-    // O token vem como "Bearer xyz...", pegamos só a parte "xyz..."
+    // O token "Bearer xyz...", pegamos só a parte do token mesmo "xyz..."
     const token = tokenHeader.split(' ')[1];
 
     jwt.verify(token, SECRET_KEY, (err, decoded) => {
@@ -45,7 +45,6 @@ function verificarToken(req, res, next) {
 }
 
 // Ativa a segurança em todas as rotas (menos login e documentação)
-// Nota: Se quiser acessar o swagger sem travar, não aplicamos o middleware nele
 app.use((req, res, next) => {
     if (req.path.startsWith('/api-docs') || req.path === '/login') {
         return next();
@@ -71,7 +70,6 @@ const mapOrderToDB = (inputJson) => {
 
 // 1. LOGIN (Para pegar o Token)
 app.post('/login', (req, res) => {
-    // Em um app real, checaria usuário e senha no banco.
     // Aqui, qualquer request gera um token válido para teste.
     const token = jwt.sign({ id: 1 }, SECRET_KEY, { expiresIn: 3600 }); // expira em 1 hora
     res.status(200).send({ auth: true, token: token });
